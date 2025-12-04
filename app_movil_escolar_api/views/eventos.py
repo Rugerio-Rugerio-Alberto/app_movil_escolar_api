@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404
 
 class EventAll(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = EventoAcademicoSerializer
     def get(self, request, *args, **kwargs):
         evento = EventosAcademicos.objects.filter().order_by('id')
         lista = EventoAcademicoSerializer(evento, many=True).data
@@ -20,6 +21,7 @@ class EventAll(generics.CreateAPIView):
         return Response(lista, 200)
     
 class EventView(generics.CreateAPIView):
+    serializer_class = EventoAcademicoSerializer
         # Permisos por método (sobrescribe el comportamiento default)
     # Verifica que el usuario esté autenticado para las peticiones GET, PUT y DELETE
     def get_permissions(self):

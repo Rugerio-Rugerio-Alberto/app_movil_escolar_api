@@ -15,6 +15,7 @@ class MaestroAll(generics.CreateAPIView):
     #Obtener todos los maestros
     # Necesita permisos de autenticación de usuario para poder acceder a la petición
     permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = MaestroSerializer
     def get(self, request, *args, **kwargs):
         maestros = Maestros.objects.filter(user__is_active=1).order_by("id")
         lista = MaestroSerializer(maestros, many=True).data
@@ -27,6 +28,7 @@ class MaestroAll(generics.CreateAPIView):
         return Response(lista, 200)
 
 class MaestroView(generics.CreateAPIView):
+    serializer_class = MaestroSerializer
     # Permisos por método (sobrescribe el comportamiento default)
     # Verifica que el usuario esté autenticado para las peticiones GET, PUT y DELETE
     def get_permissions(self):

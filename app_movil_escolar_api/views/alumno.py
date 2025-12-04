@@ -15,6 +15,7 @@ from django.shortcuts import get_object_or_404
 class AlumnoAll(generics.CreateAPIView):
     #Aquí se valida la autenticación del usuario
     permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = AlumnoSerializer
     def get(self, request, *args, **kwargs):
         alumnos = Alumnos.objects.filter(user__is_active = 1).order_by("id")
         lista = AlumnoSerializer(alumnos, many=True).data
@@ -22,6 +23,7 @@ class AlumnoAll(generics.CreateAPIView):
         return Response(lista, 200)
 
 class AlumnoView(generics.CreateAPIView):
+    serializer_class = AlumnoSerializer
     # Permisos por método (sobrescribe el comportamiento default)
     # Verifica que el usuario esté autenticado para las peticiones GET, PUT y DELETE
     def get_permissions(self):
