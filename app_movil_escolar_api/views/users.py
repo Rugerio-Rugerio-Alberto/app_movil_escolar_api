@@ -14,6 +14,7 @@ from django.shortcuts import get_object_or_404
 class AdminAll(generics.CreateAPIView):
     #Esta función es esencial para todo donde se requiera autorización de inicio de sesión (token)
     permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = AdminSerializer   
     # Invocamos la petición GET para obtener todos los administradores
     def get(self, request, *args, **kwargs):
         admin = Administradores.objects.filter(user__is_active = 1).order_by("id")
@@ -21,6 +22,7 @@ class AdminAll(generics.CreateAPIView):
         return Response(lista, 200)
 
 class AdminView(generics.CreateAPIView):
+    serializer_class = AdminSerializer 
     # Permisos por método (sobrescribe el comportamiento default)
     # Verifica que el usuario esté autenticado para las peticiones GET, PUT y DELETE
     def get_permissions(self):
